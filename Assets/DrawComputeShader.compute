@@ -1,0 +1,19 @@
+#pragma kernel CSMain
+#pragma kernel Clear
+
+RWStructuredBuffer<float4> ImageInput;
+RWTexture2D<float4> Result;
+
+int Stride;
+
+[numthreads(8,8,1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    Result[id.xy] = ImageInput[id.x + id.y * 512];
+}
+
+[numthreads(8,8,1)]
+void Clear(uint3 id : SV_DispatchThreadID)
+{
+    Result[id.xy] = float4(0, 0, 0, 0);
+}
